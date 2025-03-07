@@ -17,7 +17,11 @@ const uploadRoutes = require('./routes/upload-routes');
 const app = express();
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'https://jithu33.github.io',
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve static files from uploads folder

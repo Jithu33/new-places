@@ -1,5 +1,5 @@
 // API base URL
-const API_URL = '/api';
+const API_URL = 'https://places-backend.onrender.com/api';
 
 // Helper function for handling API errors
 const handleApiError = async (response) => {
