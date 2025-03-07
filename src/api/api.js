@@ -1,5 +1,7 @@
-const API_URL = 'http://localhost:5000/api';
+// API base URL
+const API_URL = '/api';
 
+// Helper function for handling API errors
 const handleApiError = async (response) => {
   const data = await response.json();
   if (!response.ok) {
@@ -8,6 +10,7 @@ const handleApiError = async (response) => {
   return data;
 };
 
+// Auth API calls
 export const loginUser = async (email, password) => {
   const response = await fetch(`${API_URL}/users/login`, {
     method: 'POST',
@@ -37,6 +40,7 @@ export const getUsers = async () => {
   return handleApiError(response);
 };
 
+// Places API calls
 export const getPlaces = async () => {
   const response = await fetch(`${API_URL}/places`);
   return handleApiError(response);

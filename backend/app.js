@@ -1,12 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
+const path = require('path'); // Add this line
+
+// Load environment variables
 require('dotenv').config();
 
-// Debug environment variables
+// Debug environment variables (optional)
 console.log('Environment variables loaded, JWT_SECRET exists:', !!process.env.JWT_SECRET);
 
+// Import routes
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 const uploadRoutes = require('./routes/upload-routes');
@@ -31,6 +34,19 @@ app.use((error, req, res, next) => {
   const message = error.message || 'An unknown error occurred!';
   res.status(status).json({ message: message });
 });
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../build')));
+  
+  app.get('*', (req, res, next) => {
+    // Skip API routes
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  });
+}
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
